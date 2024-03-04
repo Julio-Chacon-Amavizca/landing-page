@@ -1,3 +1,22 @@
+# Situacion
+
+Login señior
+añadir los devs
+nombres, proyectos, tecnologias(react,angular, etc)
+Se necesita una lista de Devs.
+Los Devs se presentaran en 
+
+# landing
+
+
+Simular un portafolio/curriculim
+
+1. Foto
+2. Conocimientos
+3. Redes/Git/linkedin...etc
+4. Proyectos (Cards = imagenes, descripcion, titulo)
+5. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
