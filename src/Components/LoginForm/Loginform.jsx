@@ -4,6 +4,8 @@ import { FaUser, FaLock } from "react-icons/fa";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoginServices from '../../servicios/LoginServices';
+import axios from 'axios';
+import RegisterForm from '../registerForm/RegisterForm';
 
 const LoginForm = () => {
 
@@ -32,7 +34,6 @@ const LoginForm = () => {
                     username,
                     password
                 }
-
             );
             setLogin(user);
             setUsername('');
@@ -46,34 +47,70 @@ const LoginForm = () => {
         }
     }
 
+    const renderLogin = () => {
+        return (
+            <div className='wrapper'>
+                <form onSubmit={(e) => onSubmit(e)}>
+
+                    <h1>Login</h1>
+                    <div className='input-box'>
+                        <input name="username" value={username} onChange={({ target }) => setUsername(target.value)} type="text" placeholder='Username' required />
+                        <FaUser className='icon' />
+                    </div>
+                    <div className='input-box'>
+                        <input name="password" value={password} onChange={({ target }) => setPassword(target.value)} type="password" placeholder='Password' required />
+                        <FaLock className='icon' />
+                    </div>
+
+                    <div className="remember-forgot">
+                        <label><input type='checkbox' />Remember me</label>
+                        <a href="#">Forgot password?</a>
+                    </div>
+
+                    <button type="submit">Login</button>
+
+                    <div className="register-link">
+                        <p>Don´t have an account? <Link to="/auth/register">Register</Link> </p>
+                    </div>
+                </form>
+            </div>
+        );
+    }
+
+    const onAuth = async (e) => {
+        e.preventDefault();
+        const urlBase = "http://localhost:8080/api/v1/demo";
+        // send token bearer to the server;
+        const token = RegisterForm.setToken();
+        const config = {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        }
+    const respuesta = await axios.post(urlBase, null, config);
+    console.log(respuesta);
+    }
+
+    const renderTest = () => {
+        return (
+            <div className="wrapper">
+            <form onSubmit ={ (e) => onAuth(e) }>
+                <h1>Revisar authorizacion</h1>
+            <button type="submit" >Authorizar</button>
+            </form>
+            </div>
+            );
+    }
 
     return (
-        <div className='wrapper'>
-            <form onSubmit={(e) => onSubmit(e)}>
+        <div>
+            {
 
-                <h1>Login</h1>
-                <div className='input-box'>
-                    <input name="username" value={username} onChange={({ target }) => setUsername(target.value)} type="text" placeholder='Username' required />
-                    <FaUser className='icon' />
-                </div>
-                <div className='input-box'>
-                    <input name="password" value={password} onChange={({ target }) => setPassword(target.value)} type="password" placeholder='Password' required />
-                    <FaLock className='icon' />
-                </div>
+                users
+                    ? renderTest()
+                    : renderLogin()
 
-                <div className="remember-forgot">
-                    <label><input type='checkbox' />Remember me</label>
-                    <a href="#">Forgot password?</a>
-                </div>
-
-                <button type="submit">Login</button>
-
-                <div className="register-link">
-                    <p>Don´t have an account? <Link to="/auth/register">Register</Link> </p>
-
-                </div>
-
-            </form>
+            }
         </div>
     );
 };

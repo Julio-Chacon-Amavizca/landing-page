@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 const RegisterForm = () => {
     let navegacion = useNavigate();
 
-
     const [users, setUsers] = useState({
         username: '',
         password: '',
@@ -21,6 +20,7 @@ const RegisterForm = () => {
         setUsers({ ...users, [e.target.name]: e.target.value });
 
     }
+    
     const onSubmit = async (e) => {
         e.preventDefault();
         const urlBase = "http://localhost:8080/auth/register";
@@ -28,6 +28,20 @@ const RegisterForm = () => {
         // redireccionar a la pagina de login
         navegacion('/');
     }
+
+    const onAuth = async (e) => {
+        e.preventDefault();
+        const urlBase = "http://localhost:8080/api/v1/demo";
+        // send token bearer to the server;
+        const token = "1";
+        const config = {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        }
+    }
+
+    
     console.log(users);
     return (
 
@@ -47,7 +61,14 @@ const RegisterForm = () => {
 
                 </form>
             </div>
+            <div className="wrapper">
+            <form onSubmit ={ (e) => onAuth(e) }>
+                <h1>Revisar authorizacion</h1>
+            <button type="submit" >Authorizar</button>
+            </form>
+            </div>
         </div>
+
     );
 }
-export default RegisterForm;
+export default {RegisterForm, setToken};
